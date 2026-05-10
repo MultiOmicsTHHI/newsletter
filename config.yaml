@@ -1,0 +1,23 @@
+recency_days: 14
+papers_per_issue: 6
+throwback_min_age_years: 5
+throwback_max_age_years: 30
+throwback_min_cites: 500
+
+queries:
+  - "multi-omics integration"
+  - "multi-omics deep learning"
+  - "multi-omics machine learning"
+  - "multimodal deep learning biology"
+  - "multimodal AI biomedical"
+  - "multimodal foundation model biology"
+  - "omics data fusion"
+  - "multi-omics benchmark"
+  - "multi-omics framework"
+  - "multimodal biomedical benchmark"
+
+email:
+  to: bioinfo.multiomics@technion.ac.il
+  from: bioinfo.multiomics@technion.ac.il
+  subject_template: "Multi-Omics Weekly · {year}-W{week:02d}"
+  timezone: Asia/Jerusalem

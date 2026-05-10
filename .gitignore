@@ -1,0 +1,23 @@
+# Output and runtime artifacts
+out/
+archive/
+runs/
+state.json
+
+# Secrets
+secrets.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*~
