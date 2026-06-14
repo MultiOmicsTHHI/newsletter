@@ -95,6 +95,20 @@ def send_via_smtp(msg: MIMEMultipart) -> None:
             s.send_message(msg)
 
 
+def write_draft(msg: MIMEMultipart, out_dir: Path) -> Path:
+    """Write the .eml as an editable draft.
+
+    The X-Unsent: 1 header makes Outlook/Windows Mail open the file as a new
+    composed message (From the account, click Send → goes to Sent), instead of
+    a read-only received message that has to be forwarded.
+    """
+    if "X-Unsent" not in msg:
+        msg["X-Unsent"] = "1"
+    draft_path = out_dir / "draft.eml"
+    draft_path.write_bytes(msg.as_bytes())
+    return draft_path
+
+
 def main() -> int:
     if len(sys.argv) < 2:
         print("usage: send.py rendered.html [send|draft|dry]", file=sys.stderr)
@@ -114,8 +128,7 @@ def main() -> int:
     out_dir.mkdir(exist_ok=True)
 
     if mode == "draft":
-        draft_path = out_dir / "draft.eml"
-        draft_path.write_bytes(msg.as_bytes())
+        draft_path = write_draft(msg, out_dir)
         print(f"[draft] saved {draft_path}", file=sys.stderr)
         return 0
 
@@ -126,8 +139,7 @@ def main() -> int:
             return 0
         except Exception as e:
             print(f"[send] FAILED: {e} — falling back to draft", file=sys.stderr)
-            draft_path = out_dir / "draft.eml"
-            draft_path.write_bytes(msg.as_bytes())
+            write_draft(msg, out_dir)
             return 1
 
     print(f"unknown mode: {mode}", file=sys.stderr)
